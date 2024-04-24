@@ -1,81 +1,195 @@
 package main.com.UI;
 
+import main.com.conversormoedas.api.ClearScreen;
 import main.com.conversormoedas.api.CurrencyConverterService;
 
 import java.io.IOException;
 import java.util.Scanner;
+import com.google.gson.Gson;
+
+import static main.com.conversormoedas.api.ClearScreen.centralizarTexto;
 
 public class UIOp {
-    public static void inicio(){
+    public static void inicio() throws IOException, InterruptedException {
         Scanner sc = new Scanner(System.in);
         System.out.println("\n*************************************\n");
         System.out.println("Bem vindo ao super convetor de moedas\n");
-        try {
-            int op;
-            do {
-                System.out.print("""
-                      1) Real -> Dólar
-                      2) Real -> Peso argentino
-                      3) Real -> Euro
-                      4) Dólar -> Real
-                      5) Peso argentino -> Real
-                      6) Euro -> Real
-                      7) Outras opções
-                      0) Sair
-                      
-                      Escolha uma opção:  """);
-                op = sc.nextInt();
-                switch (op) {
-                    case 1:
-                        // Implemente a conversão de Real para Dólar
-                        CurrencyConverterService.currencyApi("BRL");
+        int op;
+        System.out.print("""
+                1) Real -> Dólar
+                2) Real -> Peso argentino
+                3) Real -> Euro
+                4) Dólar -> Real
+                5) Peso argentino -> Real
+                6) Euro -> Real
+                7) Outras opções
+                0) Sair
+                                      
+                Escolha uma opção:\s""");
+        op = sc.nextInt();
+        do {
+            switch (op) {
+                case 1:
+                    try {
+                        Double currency = CurrencyConverterService.currencyApi("BRL", "USD");
+                        System.out.print("Digite o valor que quer converter: ");
+                        sc.nextLine();
+                        String moedaString = sc.nextLine().replace(",", ".");
 
-                        break;
-                    case 2:
-                        // Implemente a conversão de Real para Peso argentino
-                        CurrencyConverterService.currencyApi("BRL");
+                        Double moeda = Double.parseDouble(moedaString);
 
-                        break;
-                    case 3:
-                        // Real para Euro
-                        CurrencyConverterService.currencyApi("BRL");
+                        String texto = String.format("O valor de R$ %.2f convertido é: %.2f", moeda, (moeda * currency));
 
-                        break;
-                    case 4:
-                        // Dólar para Real
-                        CurrencyConverterService.currencyApi("USD");
+                        System.out.println();
+                        centralizarTexto("************************************ ");
+                        centralizarTexto(texto);
+                        centralizarTexto("Enter para retornar");
+                        centralizarTexto("************************************ ");
+                        sc.nextLine();
+                        ClearScreen.clearScreen();
+                        UIOp.inicio();
 
-                        break;
-                    case 5:
-                        // Peso argentino para Real
-                        CurrencyConverterService.currencyApi("ARS");
+                    } catch (NumberFormatException e) {
+                        System.out.println("Erro: Valor digitado é inválido.");
+                    }
+                    break;
+                case 2:
+                    // CurrencyConverterService.currencyApi("BRL","ARS" );
+                    System.out.println("A conversão de BRL para ARS é: ");
+                    try {
+                        Double currency = CurrencyConverterService.currencyApi("BRL", "ARS");
+                        System.out.print("Digite o valor que quer converter: ");
+                        sc.nextLine();
+                        String moedaString = sc.nextLine().replace(",", ".");
 
-                        break;
-                    case 6:
-                        // Euro para Real
-                        CurrencyConverterService.currencyApi("EUR");
+                        Double moeda = Double.parseDouble(moedaString);
 
-                        break;
-                    case 7:
-                        // Exibir submenu de outras opções
-                        UIOutrasOp.exibirSubMenuOutrasOpcoes();
-                        break;
-                    case 0:
-                        System.out.println("Saindo...");
-                        break;
-                    default:
-                        System.out.println("Opção inválida! Tente novamente.");
-                }
+                        String texto = String.format("O valor de R$ %.2f convertido é: %.2f", moeda, (moeda * currency));
 
-            } while (op != 0);
+                        System.out.println();
+                        centralizarTexto("************************************ ");
+                        centralizarTexto(texto);
+                        centralizarTexto("Enter para retornar");
+                        centralizarTexto("************************************ ");
+                        sc.nextLine();
+                        ClearScreen.clearScreen();
+                        UIOp.inicio();
+                    } catch (NumberFormatException e) {
+                        System.out.println("Erro: Valor digitado é inválido.");
+                    }
 
-        } catch (RuntimeException e){
-            System.out.println("Ocorreu um erro: "+e.getMessage());
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+                    break;
+                case 3:
+                    //CurrencyConverterService.currencyApi("BRL", "EUR");
+
+                    try {
+                        Double currency = CurrencyConverterService.currencyApi("BRL", "EUR");
+                        System.out.print("Digite o valor que quer converter: ");
+                        sc.nextLine();
+                        String moedaString = sc.nextLine().replace(",", ".");
+
+                        Double moeda = Double.parseDouble(moedaString);
+
+                        String texto = String.format("O valor de R$ %.2f convertido é: %.2f", moeda, (moeda * currency));
+
+                        System.out.println();
+                        centralizarTexto("************************************ ");
+                        centralizarTexto(texto);
+                        centralizarTexto("Enter para retornar");
+                        centralizarTexto("************************************ ");
+                        sc.nextLine();
+                        ClearScreen.clearScreen();
+                        UIOp.inicio();
+                    } catch (NumberFormatException e) {
+                        System.out.println("Erro: Valor digitado é invalido.");
+                    }
+                    break;
+                case 4:
+                    // CurrencyConverterService.currencyApi("USD", "BRL");
+                    try {
+                        Double currency = CurrencyConverterService.currencyApi("USD", "BRL");
+                        System.out.print("Digite o valor que quer converter: ");
+                        sc.nextLine();
+                        String moedaString = sc.nextLine().replace(",", ".");
+
+                        Double moeda = Double.parseDouble(moedaString);
+
+                        String texto = String.format("O valor de R$ %.2f convertido é: %.2f", moeda, (moeda * currency));
+
+                        System.out.println();
+                        centralizarTexto("************************************ ");
+                        centralizarTexto(texto);
+                        centralizarTexto("Enter para retornar");
+                        centralizarTexto("************************************ ");
+                        sc.nextLine();
+                        ClearScreen.clearScreen();
+                        UIOp.inicio();
+                    } catch (NumberFormatException e) {
+                        System.out.println("Erro: Valor digitado é inválido.");
+                    }
+                    break;
+                case 5:
+                    //CurrencyConverterService.currencyApi("ARS", "BRL");
+                    try {
+                        Double currency = CurrencyConverterService.currencyApi("ARS", "BRL");
+                        System.out.print("Digite o valor que quer converter: ");
+                        sc.nextLine();
+                        String moedaString = sc.nextLine().replace(",", ".");
+
+                        Double moeda = Double.parseDouble(moedaString);
+
+
+                        String texto = String.format("O valor de R$ %.2f convertido é: %.2f", moeda, (moeda * currency));
+
+                        System.out.println();
+                        centralizarTexto("************************************ ");
+                        centralizarTexto(texto);
+                        centralizarTexto("Enter para retornar");
+                        centralizarTexto("************************************ ");
+                        sc.nextLine();
+                        ClearScreen.clearScreen();
+                        UIOp.inicio();
+                    } catch (NumberFormatException e) {
+                        System.out.println("Erro: Valor digitado é inválido.");
+                    }
+
+                    break;
+                case 6:
+                    // CurrencyConverterService.currencyApi("EUR","BRL");
+                    try {
+                        Double currency = CurrencyConverterService.currencyApi("EUR", "BRL");
+                        System.out.print("Digite o valor que quer converter: ");
+                        sc.nextLine();
+                        String moedaString = sc.nextLine().replace(",", ".");
+
+                        Double moeda = Double.parseDouble(moedaString);
+
+                        String texto = String.format("O valor de R$ %.2f convertido é: %.2f", moeda, (moeda * currency));
+
+                        System.out.println();
+                        centralizarTexto("************************************ ");
+                        centralizarTexto(texto);
+                        centralizarTexto("Enter para retornar");
+                        centralizarTexto("************************************ ");
+                        sc.nextLine();
+                        ClearScreen.clearScreen();
+                        UIOp.inicio();
+
+                    } catch (NumberFormatException e) {
+                        System.out.println("Erro: Valor digitado é inválido.");
+                    }
+                    break;
+                case 7:
+                    UIOutrasOp.exibirSubMenuOutrasOpcoes();
+                    break;
+                case 0:
+                    System.out.println("Saindo...");
+                    break;
+                default:
+                    System.out.println("Opção inválida! Tente novamente.");
+            }
+        } while (op != 0);
+
     }
 
     // Método para exibir o submenu de outras opções
