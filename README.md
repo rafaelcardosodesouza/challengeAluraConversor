@@ -46,6 +46,15 @@ Assista ao vídeo de demonstração do Conversor de Moeda:
 
 [![Vídeo de Demonstração](https://img.youtube.com/vi/Vms9boQqdqo/maxresdefault.jpg)](https://www.youtube.com/watch?v=Vms9boQqdqo](https://www.youtube.com/watch?v=Vms9boQqdqo))
 
+## Consumindo a API
+
+O Conversor de Moeda consome uma API externa para obter as taxas de conversão de moeda em tempo real. Para isso, utiliza a biblioteca padrão do Java `java.net.http.HttpClient` para fazer requisições HTTP à API de conversão de moeda.
+
+A URI da API é construída dinamicamente de acordo com as moedas de origem e destino selecionadas pelo usuário. Após fazer a requisição, o JSON de resposta é parseado utilizando a biblioteca Gson para extrair o campo "conversion_rate", que representa a taxa de conversão entre as duas moedas especificadas.
+
+O valor da conversão é então calculado multiplicando-se a quantidade da moeda de origem pelo valor da taxa de conversão.
+
+
 ## Contribuição
 
 Contribuições são bem-vindas! Se você encontrar algum problema ou tiver sugestões de melhorias, sinta-se à vontade para abrir uma issue ou enviar um pull request.
